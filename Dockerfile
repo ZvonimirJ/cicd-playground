@@ -1,12 +1,11 @@
 # syntax=docker/dockerfile:1
 FROM eclipse-temurin:17-jdk-focal
 
+RUN mkdir /app
+
 WORKDIR /app
 
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
+COPY target/*.jar app.jar
 
-COPY src ./src
+ENTRYPOINT ["java", "-jar", "app.jar"]
 
-CMD ["./mvnw", "spring-boot:run"]
